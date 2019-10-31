@@ -1,7 +1,7 @@
 extends KinematicBody2D
 
-const SPEED = 0
-const GRAVITY = 0
+var SPEED = 0
+var GRAVITY = 0
 const TYPE = "ENEMY"
 
 var velocity = Vector2(0, 0)
@@ -26,3 +26,6 @@ func damage_loop():
 			health -= body.get("DAMAGE")
 			hitstun = 10
 			knockdir = self.transform.origin - body.transform.origin
+
+func get_input_axis():
+	pass

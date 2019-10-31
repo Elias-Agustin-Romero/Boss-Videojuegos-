@@ -4,6 +4,7 @@ const TYPE = "PLAYER"
 const FLOOR = Vector2(0, -1)
 const projectile_scene = preload("Projectile.tscn")
 
+
 export var GRAVITY = 1600
 var move_speed = 400
 var jump_velocity = -600
@@ -11,14 +12,15 @@ var velocity = Vector2()
 var is_grounded = false
 var knockdir = Vector2()
 var hitstun = 0
-var health = 1
+var health = 3
+var timerWait = 0.5
 
 onready var rayCasts = get_node("RayCasts")
 onready var timer = get_node("HandgunTimer")
 onready var position2D = get_node("facingPosition")
 
 func _ready():
-	timer.set_active(false)
+	timer.stop()
 	set_physics_process(true)
 
 func _physics_process(delta):
@@ -35,7 +37,7 @@ func _physics_process(delta):
 		is_grounded = false
 	
 	if Input.is_action_pressed("fire_handgun"):
-		if not timer.is_active():
+		if timer.is_stopped():
 			fire_projectile()
 			restart_timer()
 		
@@ -58,9 +60,9 @@ func get_input_axis():
 	if Input.is_action_pressed("move_up"):
 		if sign(position2D.get_position().y) == 1:
 			position2D.set_position(Vector2(0, position2D.get_position().y * -1))
-	velocity.x = lerp(velocity.x, move_speed * move_direction, _get_h_weight())
+	velocity.x = lerp(velocity.x, (move_speed * boost()) * move_direction, _get_h_weight())
 	if Input.is_action_pressed("jump") && is_grounded == true:
-		velocity.y = jump_velocity
+		velocity.y = jump_velocity * boost()
 		is_grounded = false
 
 func _get_h_weight():
@@ -75,6 +77,7 @@ func check_is_grounded():
 
 func fire_projectile():
 		var projectile = projectile_scene.instance()
+		projectile.set_type(TYPE)
 		get_parent().add_child(projectile)
 		projectile.set_position(position2D.get_global_position())
 		if sign(position2D.get_position().x) == 1:
@@ -89,12 +92,11 @@ func fire_projectile():
 			projectile.set_projectile_direction_y(0)
 
 func restart_timer():
-	timer.set_wait_time(.15)
-	timer.set_active(true)
+	timer.set_wait_time(firerate_boost())
 	timer.start()
 
 func _on_HandgunTimer_timeout():
-	timer.set_active(false)
+	timer.stop()
 
 func damage_loop():
 	if hitstun > 0:
@@ -103,4 +105,40 @@ func damage_loop():
 		if hitstun == 0 and body.get("DAMAGE") != null and body.get("TYPE") != TYPE:
 			health -= body.get("DAMAGE")
 			hitstun = 10
-			knockdir = self.transform.origin - body.transform.origin
+			knockdir = move_and_slide(Vector2(0.5, -0.5))
+		elif health == 0:
+			queue_free()
+			#get_tree().change_scene("lost")
+
+func firerate_boost():
+	var boost
+	if health == 1:
+		 boost = timerWait * 0.5
+	if health == 2:
+		 boost = timerWait * 0.75
+	if health == 3:
+		 boost = timerWait * 1
+	if health == 4:
+		 boost = timerWait * 1.5
+	if health == 5:
+		 boost =  timerWait * 1.75
+	return boost
+
+func boost():
+	var boost
+	if health == 1:
+		 boost = 1.75
+	elif health == 2:
+		 boost = 1.5
+	elif health == 3:
+		 boost =  1
+	elif health == 4:
+		 boost =  0.5
+	elif health == 5:
+		 boost =  0.75
+	else:
+		boost = 0
+	return boost
+
+func on_projectile_hit(damage):
+	health -= damage
