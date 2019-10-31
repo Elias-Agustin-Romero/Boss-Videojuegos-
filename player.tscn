@@ -1,0 +1,99 @@
+[gd_scene load_steps=13 format=2]
+
+[ext_resource path="res://player.gd" type="Script" id=1]
+[ext_resource path="res://icon.png" type="Texture" id=2]
+
+[sub_resource type="RectangleShape2D" id=1]
+
+custom_solver_bias = 0.0
+extents = Vector2( 29, 28 )
+
+[sub_resource type="RectangleShape2D" id=2]
+
+custom_solver_bias = 0.0
+extents = Vector2( 31, 31 )
+
+[node name="player" type="KinematicBody2D"]
+
+input_pickable = false
+shapes/0/shape = SubResource( 1 )
+shapes/0/transform = Transform2D( 1, 0, 0, 1, 0, 0 )
+shapes/0/trigger = false
+collision_layer = 1
+collision_mask = 1
+collision/safe_margin = 0.08
+script = ExtResource( 1 )
+GRAVITY = 1600
+
+[node name="playerSprite" type="Sprite" parent="."]
+
+texture = ExtResource( 2 )
+modulate = Color( 0.109497, 0.176134, 0.71875, 1 )
+
+[node name="playerCollision" type="CollisionShape2D" parent="."]
+
+shape = SubResource( 1 )
+trigger = false
+_update_shape_index = 0
+
+[node name="RayCasts" type="Node2D" parent="."]
+
+visible = false
+visibility/blend_mode = 1
+position = Vector2( 0.139053, 8.13828 )
+
+[node name="RayCast2D" type="RayCast2D" parent="RayCasts"]
+
+light_mask = 3
+position = Vector2( 7.01379, -0.0852575 )
+enabled = true
+cast_to = Vector2( 0, 5 )
+layer_mask = 1
+type_mask = 31
+
+[node name="RayCast2D1" type="RayCast2D" parent="RayCasts"]
+
+position = Vector2( -6.77991, 0 )
+enabled = true
+cast_to = Vector2( 0, 5 )
+layer_mask = 1
+type_mask = 15
+
+[node name="RayCast2D2" type="RayCast2D" parent="RayCasts"]
+
+light_mask = 524289
+position = Vector2( 1.86265e-07, 0 )
+enabled = true
+cast_to = Vector2( 0, 5 )
+layer_mask = 1
+type_mask = 15
+
+[node name="facingPosition" type="Position2D" parent="."]
+
+position = Vector2( 7, 0 )
+
+[node name="HandgunTimer" type="Timer" parent="."]
+
+process_mode = 1
+wait_time = 1.0
+one_shot = false
+autostart = false
+
+[node name="hitbox" type="Area2D" parent="."]
+
+input_pickable = true
+shapes/0/shape = SubResource( 2 )
+shapes/0/transform = Transform2D( 1, 0, 0, 1, 0, 0 )
+shapes/0/trigger = false
+gravity_vec = Vector2( 0, 1 )
+gravity = 98.0
+linear_damp = 0.1
+angular_damp = 1.0
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="hitbox"]
+
+shape = SubResource( 2 )
+trigger = false
+_update_shape_index = 0
+
+[connection signal="timeout" from="HandgunTimer" to="." method="_on_HandgunTimer_timeout" binds=[  ]]
