@@ -15,7 +15,6 @@ var hitstun = 0
 var health = 3
 var timerWait = 0.5
 
-onready var rayCasts = get_node("RayCasts")
 onready var timer = get_node("HandgunTimer")
 onready var position2D = get_node("facingPosition")
 
@@ -68,13 +67,6 @@ func get_input_axis():
 func _get_h_weight():
 	return 0.2 if is_grounded else 0.1
 
-func check_is_grounded():
-	for raycast in rayCasts.get_children():
-		if raycast.is_colliding():
-			return true
-		else:
-			return false
-
 func fire_projectile():
 		var projectile = projectile_scene.instance()
 		projectile.set_type(TYPE)
@@ -84,10 +76,26 @@ func fire_projectile():
 			projectile.set_projectile_direction_x(1)
 		else:
 			projectile.set_projectile_direction_x(-1)
-		if Input.is_action_pressed("move_up"):
+		if Input.is_action_pressed("move_up") && Input.is_action_pressed("move_right"):
 			projectile.set_projectile_direction_y(-1)
+			projectile.set_projectile_direction_x(1)
+		elif Input.is_action_pressed("move_down") && Input.is_action_pressed("move_right"):
+			projectile.set_projectile_direction_y(1)
+			projectile.set_projectile_direction_x(1)
+		elif Input.is_action_pressed("move_up") && Input.is_action_pressed("move_left"):
+			projectile.set_projectile_direction_y(-1)
+			projectile.set_projectile_direction_x(-1)
+		elif Input.is_action_pressed("move_down") && Input.is_action_pressed("move_left"):
+			projectile.set_projectile_direction_y(1)
+			projectile.set_projectile_direction_x(-1)
+		elif Input.is_action_pressed("move_up"):
+			projectile.set_projectile_direction_y(-1)
+			projectile.set_projectile_direction_x(0)
 		elif Input.is_action_pressed("move_down"):
 			projectile.set_projectile_direction_y(1)
+			projectile.set_projectile_direction_x(0)
+		
+		
 		else:
 			projectile.set_projectile_direction_y(0)
 
@@ -105,7 +113,10 @@ func damage_loop():
 		if hitstun == 0 and body.get("DAMAGE") != null and body.get("TYPE") != TYPE:
 			health -= body.get("DAMAGE")
 			hitstun = 10
-			knockdir = move_and_slide(Vector2(0.5, -0.5))
+			if sign(position2D.get_position().x) == 1:
+				knockdir = move_and_slide(Vector2(-0.5, -0.5))
+			elif sign(position2D.get_position().x) == -1:
+				knockdir = move_and_slide(Vector2(0.5, -0.5))
 		elif health == 0:
 			queue_free()
 			#get_tree().change_scene("lost")

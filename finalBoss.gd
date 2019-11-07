@@ -5,6 +5,7 @@ const TYPE = "ENEMY"
 onready var player = get_parent().get_node("player")
 onready var timer = get_node("Timer")
 const projectile_scene = preload("Projectile.tscn")
+onready var specialAbility = get_node("finalAttack")
 
 var SPEED = 0
 var GRAVITY = 0
@@ -48,8 +49,9 @@ func on_projectile_hit(damage):
 	if health > 0:
 		health -= damage
 	else:
-		get_tree().quit()
-		queue_free()
+		specialAbility.play()
+		set_collision_layer_bit(0, false)
+		set_collision_mask_bit(0, false)
 
 func fire_projectile():
 		var projectile = projectile_scene.instance()
@@ -67,3 +69,8 @@ func restart_timer():
 func _on_Timer_timeout():
 		timer.stop()
 
+
+
+func _on_finalAttack_finished():
+	get_tree().quit()
+	queue_free()

@@ -1,21 +1,30 @@
 extends KinematicBody2D
 
-var SPEED = 0
-var GRAVITY = 0
-const TYPE = "ENEMY"
+const TYPE = ""
+const FLOOR = Vector2(0, -1)
+const projectile_scene = preload("Projectile.tscn")
 
-var velocity = Vector2(0, 0)
+
+export var GRAVITY = 1600
+var move_speed = 400
+var jump_velocity = -600
+var velocity = Vector2()
+var is_grounded = false
 var knockdir = Vector2()
 var hitstun = 0
-var health = 1
+var health = 3
+var timerWait = 0.5
+
+onready var timer = get_node("HandgunTimer")
+onready var position2D = get_node("facingPosition")
 
 func movement_loop(delta):
 	if hitstun == 0:
 		get_input_axis()
 		velocity.y += GRAVITY * delta
-		velocity = velocity * SPEED
+		velocity = velocity * move_speed
 	else:
-		velocity = knockdir * SPEED * 1.5
+		velocity = knockdir * move_speed * 1.5
 	move_and_slide(velocity, Vector2(0, -1))
 
 func damage_loop():
