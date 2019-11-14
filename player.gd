@@ -6,6 +6,7 @@ const projectile_scene = preload("Projectile.tscn")
 
 
 export var GRAVITY = 1600
+var max_health = 5
 var move_speed = 400
 var jump_velocity = -600
 var velocity = Vector2()
@@ -100,7 +101,7 @@ func fire_projectile():
 			projectile.set_projectile_direction_y(0)
 
 func restart_timer():
-	timer.set_wait_time(firerate_boost())
+	timer.set_wait_time(2 - boost())
 	timer.start()
 
 func _on_HandgunTimer_timeout():
@@ -123,16 +124,27 @@ func damage_loop():
 
 func firerate_boost():
 	var boost
-	if health == 1:
-		 boost = timerWait * 0.5
-	if health == 2:
-		 boost = timerWait * 0.75
-	if health == 3:
-		 boost = timerWait * 1
-	if health == 4:
-		 boost = timerWait * 1.5
-	if health == 5:
-		 boost =  timerWait * 1.75
+	#if health == 1:
+	#	 boost = timerWait * 0.25
+	#if health == 2:
+	#	 boost = timerWait * 0.5
+	#if health == 3:
+	#	 boost = timerWait * 1
+	#if health == 4:
+	#	 boost = timerWait * 1.5
+	#if health == 5:
+	#	 boost =  timerWait * 1.75
+	match health:
+		1:
+			boost = timerWait * 0.25
+		2:
+			boost = timerWait * 0.5
+		3:
+			boost = timerWait * 1
+		4:
+			boost = timerWait * 1.5
+		5:
+			boost =  timerWait * 1.75
 	return boost
 
 func boost():
@@ -146,7 +158,7 @@ func boost():
 	elif health == 4:
 		 boost =  0.5
 	elif health == 5:
-		 boost =  0.75
+		 boost =  0.25
 	else:
 		boost = 0
 	return boost
