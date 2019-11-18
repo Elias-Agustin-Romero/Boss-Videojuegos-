@@ -112,7 +112,6 @@ func damage_loop():
 		hitstun -= 1
 	for body in get_node("hitbox").get_overlapping_bodies():
 		if hitstun == 0 and body.get("DAMAGE") != null and body.get("TYPE") != TYPE:
-			health -= body.get("DAMAGE")
 			hitstun = 10
 			if sign(position2D.get_position().x) == 1:
 				knockdir = move_and_slide(Vector2(-0.5, -0.5))
@@ -122,46 +121,34 @@ func damage_loop():
 			queue_free()
 			#get_tree().change_scene("lost")
 
-func firerate_boost():
-	var boost
-	#if health == 1:
-	#	 boost = timerWait * 0.25
-	#if health == 2:
-	#	 boost = timerWait * 0.5
-	#if health == 3:
-	#	 boost = timerWait * 1
-	#if health == 4:
-	#	 boost = timerWait * 1.5
-	#if health == 5:
-	#	 boost =  timerWait * 1.75
-	match health:
-		1:
-			boost = timerWait * 0.25
-		2:
-			boost = timerWait * 0.5
-		3:
-			boost = timerWait * 1
-		4:
-			boost = timerWait * 1.5
-		5:
-			boost =  timerWait * 1.75
-	return boost
-
 func boost():
 	var boost
-	if health == 1:
-		 boost = 1.75
-	elif health == 2:
-		 boost = 1.5
-	elif health == 3:
-		 boost =  1
-	elif health == 4:
-		 boost =  0.5
-	elif health == 5:
-		 boost =  0.25
-	else:
-		boost = 0
+	match health 
+		1:
+			boost = 1.75
+		2:
+			boost = 1.5
+		3:
+			boost =  1
+		4:
+			boost =  0.5
+		5:
+			boost =  0.25
 	return boost
 
 func on_projectile_hit(damage):
 	health -= damage
+	update_weight()
+
+func update_weight():
+	match health 
+		1:
+			weight = 2
+		2:
+			weight = 4
+		3:
+			weight = 6
+		4:
+			weight = 8
+		5:
+			weight = 10
