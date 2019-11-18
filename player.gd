@@ -15,6 +15,7 @@ var knockdir = Vector2()
 var hitstun = 0
 var health = 3
 var timerWait = 0.5
+var weight = 6
 
 onready var timer = get_node("HandgunTimer")
 onready var position2D = get_node("facingPosition")
