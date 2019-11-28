@@ -1,0 +1,31 @@
+[gd_scene load_steps=5 format=2]
+
+[sub_resource type="Gradient" id=1]
+offsets = PoolRealArray( 0.0222222, 0.585185, 1 )
+colors = PoolColorArray( 0.34902, 0.996078, 0.0235294, 1, 0.133333, 0.4, 0.0941176, 1, 0.14902, 0.694118, 0.133333, 0 )
+
+[sub_resource type="GradientTexture" id=2]
+gradient = SubResource( 1 )
+
+[sub_resource type="CanvasItemMaterial" id=3]
+
+[sub_resource type="ParticlesMaterial" id=4]
+next_pass = SubResource( 3 )
+emission_shape = 1
+emission_sphere_radius = 15.0
+flag_disable_z = true
+orbit_velocity = 0.0
+orbit_velocity_random = 1.0
+damping_random = 1.0
+scale = 1.5
+scale_random = 1.0
+color_ramp = SubResource( 2 )
+hue_variation_random = 1.0
+
+[node name="Node2D" type="Node2D"]
+
+[node name="Particles2D" type="Particles2D" parent="."]
+amount = 50
+randomness = 1.0
+local_coords = false
+process_material = SubResource( 4 )
