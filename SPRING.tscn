@@ -1,0 +1,25 @@
+[gd_scene load_steps=4 format=2]
+
+[ext_resource path="res://SPRING.gd" type="Script" id=1]
+
+[sub_resource type="RectangleShape2D" id=1]
+extents = Vector2( 182.698, 23.2897 )
+
+[sub_resource type="RectangleShape2D" id=2]
+extents = Vector2( 127.799, 0.490547 )
+
+[node name="StaticBody2D2" type="StaticBody2D"]
+position = Vector2( 73.3022, 640 )
+collision_layer = 2
+script = ExtResource( 1 )
+
+[node name="Area2D" type="Area2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
+scale = Vector2( 0.0980963, 0.78124 )
+shape = SubResource( 1 )
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+scale = Vector2( -0.15428, 31.1911 )
+shape = SubResource( 2 )
+[connection signal="body_entered" from="Area2D" to="." method="_on_Area2D_body_entered"]

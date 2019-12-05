@@ -1,0 +1,76 @@
+[gd_scene load_steps=3 format=2]
+
+[ext_resource path="res://Nivel.gd" type="Script" id=1]
+[ext_resource path="res://Platform.tscn" type="PackedScene" id=2]
+
+[node name="Node2D" type="Node2D"]
+script = ExtResource( 1 )
+
+[node name="normales" type="Node2D" parent="."]
+editor/display_folded = true
+
+[node name="Node2D" type="Node2D" parent="normales"]
+editor/display_folded = true
+position = Vector2( 64, 384.703 )
+
+[node name="StaticBody2D" parent="normales/Node2D" instance=ExtResource( 2 )]
+position = Vector2( 4.08786, 65.407 )
+
+[node name="Node2D3" type="Node2D" parent="normales"]
+editor/display_folded = true
+position = Vector2( 260.088, 512 )
+
+[node name="StaticBody2D" parent="normales/Node2D3" instance=ExtResource( 2 )]
+position = Vector2( 4.08786, 65.407 )
+
+[node name="Node2D4" type="Node2D" parent="normales"]
+editor/display_folded = true
+position = Vector2( 384, 320 )
+
+[node name="StaticBody2D" parent="normales/Node2D4" instance=ExtResource( 2 )]
+position = Vector2( 4.08786, 65.407 )
+
+[node name="Node2D5" type="Node2D" parent="normales"]
+editor/display_folded = true
+position = Vector2( 516.088, 128 )
+
+[node name="StaticBody2D" parent="normales/Node2D5" instance=ExtResource( 2 )]
+position = Vector2( 4.08786, 65.407 )
+
+[node name="Node2D6" type="Node2D" parent="normales"]
+editor/display_folded = true
+position = Vector2( 768, 320.703 )
+
+[node name="StaticBody2D" parent="normales/Node2D6" instance=ExtResource( 2 )]
+position = Vector2( 4.08789, 65.407 )
+
+[node name="Node2D7" type="Node2D" parent="normales"]
+editor/display_folded = true
+position = Vector2( 640, 493.313 )
+
+[node name="StaticBody2D" parent="normales/Node2D7" instance=ExtResource( 2 )]
+position = Vector2( 4.08789, 65.407 )
+
+[node name="Node2D8" type="Node2D" parent="normales"]
+editor/display_folded = true
+position = Vector2( 1024, 192.704 )
+
+[node name="StaticBody2D" parent="normales/Node2D8" instance=ExtResource( 2 )]
+position = Vector2( 4.08789, 65.407 )
+
+[node name="Node2D9" type="Node2D" parent="normales"]
+editor/display_folded = true
+position = Vector2( 1216, 465.016 )
+
+[node name="StaticBody2D" parent="normales/Node2D9" instance=ExtResource( 2 )]
+position = Vector2( 4.08789, 65.407 )
+
+[node name="fantasmas" type="Node2D" parent="."]
+editor/display_folded = true
+
+[node name="Node2D2" type="Node2D" parent="fantasmas"]
+editor/display_folded = true
+position = Vector2( 256, 192 )
+
+[node name="StaticBody2D" parent="fantasmas/Node2D2" instance=ExtResource( 2 )]
+position = Vector2( 4.08786, 65.407 )
