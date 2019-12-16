@@ -5,6 +5,9 @@ const enemy1 = preload("res://enemigo_tipo_1.gd")
 const enemy2 = preload("res://enemigo_tipo_2.gd")
 const enemy3 = preload("res://enemigo_tipo_3.gd")
 
+func _ready():
+	murder()
+
 func consegui_hijos():
 	var n=[]
 	for c in $normales.get_children():
@@ -13,24 +16,13 @@ func consegui_hijos():
 	return n
 	
 func murder():#Cause it makes ghosts
-	for node in $fantasmas.get_children():
-		for body in node.get_children():
-				body.make_ghost()
-				
-func cura():#Cause it makes ghosts
-	var lista = []
-	for node in $normales.get_children():
-		for body in node.get_children():
-				lista.append(body)
-	return lista
+	$fantasmas.make_ghosts()
 
 func inicializate(num):
-	murder()
+	
 	randomize()
 	var n = clamp(randi(), 0, 6)
 	var points = __shuffleList(consegui_hijos())
-	var plataformaDeCura = cura()
-	plataformaDeCura[n].set_cure(true)
 	match num:
 		0:
 			__add_enemy_to_point(points[0], enemy1)

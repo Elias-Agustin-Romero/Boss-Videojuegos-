@@ -1,4 +1,4 @@
-[gd_scene load_steps=28 format=2]
+[gd_scene load_steps=29 format=2]
 
 [ext_resource path="res://player.gd" type="Script" id=1]
 [ext_resource path="res://Tileset/sector10.png" type="Texture" id=2]
@@ -14,47 +14,33 @@
 [ext_resource path="res://Sounds del juego/244238__chewiesmissus__glass-smash.wav" type="AudioStream" id=12]
 
 [sub_resource type="RectangleShape2D" id=1]
-
-[sub_resource type="RectangleShape2D" id=2]
-extents = Vector2( 16.9018, 16.0696 )
-
-[sub_resource type="RectangleShape2D" id=3]
-extents = Vector2( 23.3427, 22.3265 )
-
-[sub_resource type="RectangleShape2D" id=4]
-extents = Vector2( 27.0232, 25.823 )
-
-[sub_resource type="RectangleShape2D" id=5]
-extents = Vector2( 29, 29.3413 )
-
-[sub_resource type="RectangleShape2D" id=6]
 extents = Vector2( 31, 31 )
 
-[sub_resource type="CircleShape2D" id=7]
+[sub_resource type="CircleShape2D" id=2]
 
-[sub_resource type="Gradient" id=8]
+[sub_resource type="Gradient" id=3]
 offsets = PoolRealArray( 0.591549, 1 )
 colors = PoolColorArray( 1, 1, 1, 1, 0, 0, 0, 0 )
 
-[sub_resource type="GradientTexture" id=9]
-gradient = SubResource( 8 )
+[sub_resource type="GradientTexture" id=4]
+gradient = SubResource( 3 )
 
-[sub_resource type="Curve" id=10]
+[sub_resource type="Curve" id=5]
 min_value = -200.0
 max_value = 200.0
 _data = [ Vector2( 0, 8.36002 ), 0.0, 0.0, 0, 0, Vector2( 1, 200 ), 0.0, 0.0, 0, 0 ]
 
-[sub_resource type="CurveTexture" id=11]
-curve = SubResource( 10 )
+[sub_resource type="CurveTexture" id=6]
+curve = SubResource( 5 )
 
-[sub_resource type="Gradient" id=12]
+[sub_resource type="Gradient" id=7]
 colors = PoolColorArray( 0.118866, 0.201651, 0.742188, 1, 0.738281, 0.126892, 0.126892, 1 )
 
-[sub_resource type="GradientTexture" id=13]
-gradient = SubResource( 12 )
+[sub_resource type="GradientTexture" id=8]
+gradient = SubResource( 7 )
 
-[sub_resource type="ParticlesMaterial" id=14]
-trail_color_modifier = SubResource( 13 )
+[sub_resource type="ParticlesMaterial" id=9]
+trail_color_modifier = SubResource( 8 )
 emission_shape = 1
 emission_sphere_radius = 45.09
 flag_disable_z = true
@@ -64,14 +50,14 @@ orbit_velocity = 0.0
 orbit_velocity_random = 0.0
 radial_accel = 100.0
 radial_accel_random = 1.0
-radial_accel_curve = SubResource( 11 )
+radial_accel_curve = SubResource( 6 )
 angle = 227.0
 angle_random = 0.79
 scale = 0.0
 scale_random = 1.0
-color_ramp = SubResource( 9 )
+color_ramp = SubResource( 4 )
 
-[sub_resource type="Animation" id=15]
+[sub_resource type="Animation" id=10]
 resource_name = "Nueva animación"
 length = 3.0
 tracks/0/type = "value"
@@ -171,6 +157,36 @@ tracks/7/keys = {
 "values": [ Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 0.75 ), Color( 1, 1, 1, 0 ) ]
 }
 
+[sub_resource type="Animation" id=11]
+resource_name = "hit"
+length = 2.0
+tracks/0/type = "value"
+tracks/0/path = NodePath(".:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.2, 0.4, 0.6, 0.8, 1, 1.2, 1.4, 1.6, 1.8, 2 ),
+"transitions": PoolRealArray( 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 ),
+"update": 0,
+"values": [ Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 0 ), Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 0 ), Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 0 ), Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 0 ), Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 0 ), Color( 1, 1, 1, 1 ) ]
+}
+
+[sub_resource type="RectangleShape2D" id=12]
+
+[sub_resource type="RectangleShape2D" id=13]
+extents = Vector2( 16.9018, 16.2133 )
+
+[sub_resource type="RectangleShape2D" id=14]
+extents = Vector2( 21.6343, 22.2215 )
+
+[sub_resource type="RectangleShape2D" id=15]
+extents = Vector2( 28.0169, 27.928 )
+
+[sub_resource type="RectangleShape2D" id=16]
+extents = Vector2( 33.6422, 33.7373 )
+
 [node name="player" type="KinematicBody2D"]
 collision_layer = 1025
 collision_mask = 1025
@@ -184,40 +200,16 @@ position = Vector2( 7, 0 )
 
 [node name="HandgunTimer" type="Timer" parent="."]
 
-[node name="health1" type="CollisionShape2D" parent="."]
-visible = false
-shape = SubResource( 1 )
-disabled = true
-
-[node name="health2" type="CollisionShape2D" parent="."]
-visible = false
-shape = SubResource( 2 )
-disabled = true
-
-[node name="health3" type="CollisionShape2D" parent="."]
-visible = false
-shape = SubResource( 3 )
-disabled = true
-
-[node name="health4" type="CollisionShape2D" parent="."]
-visible = false
-shape = SubResource( 4 )
-disabled = true
-
-[node name="health5" type="CollisionShape2D" parent="."]
-visible = false
-shape = SubResource( 5 )
-
 [node name="hitbox" type="Area2D" parent="."]
 editor/display_folded = true
 visible = false
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="hitbox"]
-shape = SubResource( 6 )
+shape = SubResource( 1 )
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 visible = false
-shape = SubResource( 7 )
+shape = SubResource( 2 )
 
 [node name="Node2D" type="Node2D" parent="."]
 editor/display_folded = true
@@ -245,11 +237,12 @@ one_shot = true
 explosiveness = 1.0
 randomness = 1.0
 local_coords = false
-process_material = SubResource( 14 )
+process_material = SubResource( 9 )
 texture = ExtResource( 7 )
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
-"anims/Nueva animación" = SubResource( 15 )
+"anims/Nueva animación" = SubResource( 10 )
+anims/hit = SubResource( 11 )
 
 [node name="Node" type="Node2D" parent="."]
 editor/display_folded = true
@@ -273,6 +266,28 @@ texture = ExtResource( 10 )
 modulate = Color( 1, 1, 1, 0 )
 position = Vector2( 9.82658, 10.4804 )
 texture = ExtResource( 11 )
+
+[node name="health1" type="CollisionShape2D" parent="."]
+shape = SubResource( 12 )
+disabled = true
+
+[node name="health2" type="CollisionShape2D" parent="."]
+position = Vector2( 0.250343, -0.500687 )
+shape = SubResource( 13 )
+disabled = true
+
+[node name="health3" type="CollisionShape2D" parent="."]
+position = Vector2( 0.250343, -0.500687 )
+shape = SubResource( 14 )
+disabled = true
+
+[node name="health4" type="CollisionShape2D" parent="."]
+position = Vector2( 0.368053, -0.552076 )
+shape = SubResource( 15 )
+disabled = true
+
+[node name="health5" type="CollisionShape2D" parent="."]
+shape = SubResource( 16 )
 
 [node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
 stream = ExtResource( 12 )

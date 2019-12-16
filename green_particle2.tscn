@@ -14,7 +14,7 @@ gradient = SubResource( 1 )
 [sub_resource type="ParticlesMaterial" id=4]
 next_pass = SubResource( 3 )
 emission_shape = 1
-emission_sphere_radius = 22.6
+emission_sphere_radius = 41.09
 flag_disable_z = true
 angular_velocity = 0.376471
 orbit_velocity = 0.0
@@ -26,6 +26,9 @@ color_ramp = SubResource( 2 )
 modulate = Color( 0.305882, 0.807843, 0.145098, 1 )
 
 [node name="Particles2D" type="Particles2D" parent="."]
+one_shot = true
+speed_scale = 3.0
+explosiveness = 0.3
 randomness = 1.0
 local_coords = false
 process_material = SubResource( 4 )

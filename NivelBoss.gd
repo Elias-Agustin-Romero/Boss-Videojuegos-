@@ -1,9 +1,11 @@
 extends Node2D
 
-# Declare member variables here. Examples:
-# var a = 2
-# var b = "text"
-
-# Called when the node enters the scene tree for the first time.
 func _ready():
 	get_children()[0].set_cure(true)
+
+func _on_Timer_timeout():
+	$Cure.set_cure(true)
+	$Timer.start()
+
+func boss_died():
+	get_parent().get_node("Position2D/Node").boss_died()

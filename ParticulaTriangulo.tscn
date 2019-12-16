@@ -1,0 +1,36 @@
+[gd_scene load_steps=5 format=2]
+
+[ext_resource path="res://Tileset/part_enem_dead.png" type="Texture" id=1]
+
+[sub_resource type="Gradient" id=1]
+offsets = PoolRealArray( 0.126761, 1 )
+colors = PoolColorArray( 1, 1, 1, 1, 0, 0, 0, 0 )
+
+[sub_resource type="GradientTexture" id=2]
+gradient = SubResource( 1 )
+
+[sub_resource type="ParticlesMaterial" id=3]
+render_priority = 1
+emission_shape = 1
+emission_sphere_radius = 30.86
+flag_disable_z = true
+gravity = Vector3( 0, -15, 0 )
+initial_velocity_random = 1.0
+angular_velocity = 302.5
+angular_velocity_random = 1.0
+orbit_velocity = 0.0
+orbit_velocity_random = 0.0
+linear_accel = 100.0
+radial_accel = 19.5
+radial_accel_random = 0.27
+tangential_accel = 75.56
+color_ramp = SubResource( 2 )
+
+[node name="fragments" type="Particles2D"]
+amount = 10
+one_shot = true
+explosiveness = 1.0
+randomness = 1.0
+local_coords = false
+process_material = SubResource( 3 )
+texture = ExtResource( 1 )
