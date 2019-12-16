@@ -7,8 +7,13 @@ onready var nivelD = preload("NivelD.tscn")
 onready var nivelE = preload("NivelE.tscn")
 onready var nivelF = preload("NivelF.tscn")
 
+func _process(delta):
+	if Input.is_action_just_pressed("pause") && not get_tree().paused:
+		get_tree().paused = not get_tree().paused
+		get_node("Position2D/Node").paused()
+
 func _ready():
-	_instance_levels()
+	_instance_levels()		
 
 func _instance_levels():
 	var order = __shuffleList([nivelA, nivelB, nivelC, nivelD, nivelE, nivelF])
@@ -39,9 +44,23 @@ func _on_Position2D_final_showdown():
 
 
 func _on_player_player_died():
-	get_node('Position2D/Camera2D/Control').visible = true
+	get_node("Position2D/Node").restart()
 
 
 func _on_Button_pressed():
-	get_node('Position2D/Camera2D/Control').visible = false
 	get_tree().reload_current_scene()
+
+
+func _on_resume_pressed():
+	get_tree().paused = not get_tree().paused
+	$Position2D/Node.unpaused() 
+
+
+func _on_restart_pressed():
+	get_tree().paused = false
+	$Position2D/Node.restarted() 
+	get_tree().reload_current_scene()
+
+
+func _on_exit_pressed():
+	get_tree().quit()

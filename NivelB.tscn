@@ -1,7 +1,10 @@
-[gd_scene load_steps=3 format=2]
+[gd_scene load_steps=6 format=2]
 
 [ext_resource path="res://Nivel.gd" type="Script" id=1]
 [ext_resource path="res://Platform.tscn" type="PackedScene" id=2]
+[ext_resource path="res://Platform7.gd" type="Script" id=3]
+[ext_resource path="res://fantasmas.gd" type="Script" id=4]
+[ext_resource path="res://Node2D3.gd" type="Script" id=5]
 
 [node name="Node2D" type="Node2D"]
 script = ExtResource( 1 )
@@ -39,8 +42,9 @@ position = Vector2( 2.51758, 55.3858 )
 [node name="Node2D6" type="Node2D" parent="normales"]
 editor/display_folded = true
 position = Vector2( 795.011, 352.455 )
+script = ExtResource( 3 )
 
-[node name="StaticBody2D" parent="normales/Node2D6" instance=ExtResource( 2 )]
+[node name="StatiP1" parent="normales/Node2D6" instance=ExtResource( 2 )]
 position = Vector2( 2.51758, 55.3858 )
 
 [node name="Node2D7" type="Node2D" parent="normales"]
@@ -65,9 +69,11 @@ position = Vector2( 1197.88, 391.039 )
 position = Vector2( 2.51758, 55.3858 )
 
 [node name="fantasmas" type="Node2D" parent="."]
+script = ExtResource( 4 )
 
 [node name="Node2D3" type="Node2D" parent="fantasmas"]
 position = Vector2( 484.957, 299.454 )
+script = ExtResource( 5 )
 
 [node name="StaticBody2D" parent="fantasmas/Node2D3" instance=ExtResource( 2 )]
 position = Vector2( 2.51758, 47.8332 )

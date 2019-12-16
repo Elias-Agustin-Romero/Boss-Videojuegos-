@@ -4,6 +4,7 @@ onready var left  = $RayCastLeft
 onready var right = $RayCastRight
 
 const projectile_scene = preload("Projectile.tscn")
+const particulas_de_triangulos = preload("res://ParticulaTriangulo.tscn")
 const DAMAGE = 1
 
 var TYPE = "ENEMY"
@@ -26,16 +27,19 @@ func get_input_axis():
 func movement_loop(delta):
 	pass
 
-func damage_loop():
-	if hitstun > 0:
-		hitstun -= 1
-	for body in get_node("hitbox").get_overlapping_bodies():
-		if hitstun == 0 and body.get("DAMAGE") != null and body.get("TYPE") != TYPE:
-			health -= body.get("DAMAGE")
-			hitstun = 10
-			knockdir = transform.origin - body.transform.origin
+#func damage_loop():
+#	if hitstun > 0:
+#		hitstun -= 1
+#	for body in get_node("hitbox").get_overlapping_bodies():
+#		if hitstun == 0 and body.get("DAMAGE") != null and body.get("TYPE") != TYPE:
+#			health -= body.get("DAMAGE")
+#			hitstun = 10
+#			knockdir = transform.origin - body.transform.origin
 
 func on_projectile_hit(damage):
+	var p = particulas_de_triangulos.instance()
+	p.set_position(position)
+	get_parent().call_deferred("add_child", p)
 	health = health - damage
 	if (health<=0):
 		self.die()
@@ -53,7 +57,7 @@ func shoot(x, y):
 
 
 func die():
-	queue_free()
+	call_deferred("queue_free")
 
 func _on_VisibilityNotifier2D_screen_entered():
 	set_physics_process(true)

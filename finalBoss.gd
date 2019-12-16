@@ -7,7 +7,6 @@ onready var main = get_parent().get_parent().get_parent().get_parent()
 onready var player = get_parent().get_parent().get_parent().get_parent().get_node('player')
 onready var timer = get_node("Timer")
 const projectile_scene = preload("Projectile.tscn")
-onready var specialAbility = get_node("finalAttack")
 
 var SPEED = 0
 var GRAVITY = 0
@@ -47,11 +46,12 @@ func damage_loop():
 
 
 func on_projectile_hit(damage):
+	$AnimationPlayer.play("get_damage")
 	boom()
 	if health != 0:
 		health -= damage
 	else:
-		specialAbility.play()
+		die()
 		timer.stop()
 		set_collision_layer_bit(0, false)
 		set_collision_mask_bit(0, false)
@@ -100,5 +100,7 @@ func shoot(x, y):
 	projectile.set_projectile_direction_x(x)
 	projectile.set_projectile_direction_y(y)
 
-func _on_finalAttack_finished():
-	get_tree().quit()
+func die():
+	get_parent().get_parent().get_parent().boss_died()
+	get_tree().paused = true
+	call_deferred("queue_free")

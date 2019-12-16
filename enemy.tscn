@@ -48,8 +48,6 @@ enabled = true
 [node name="RayCastLeft" type="RayCast2D" parent="."]
 position = Vector2( -9.87627, 0 )
 enabled = true
-
-[node name="Particles2D" type="Particles2D" parent="."]
 [connection signal="timeout" from="Timer" to="." method="_on_Timer_timeout"]
 [connection signal="screen_entered" from="VisibilityNotifier2D" to="." method="_on_VisibilityNotifier2D_screen_entered"]
 [connection signal="screen_exited" from="VisibilityNotifier2D" to="." method="_on_VisibilityNotifier2D_screen_exited"]

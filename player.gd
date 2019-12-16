@@ -5,6 +5,7 @@ const TYPE = "PLAYER"
 const FLOOR = Vector2(0, -1)
 const projectile_scene = preload("Projectile.tscn")
 const platformScene = preload("Platform.tscn")
+const green = preload("green_particle2.tscn")
 
 
 export var GRAVITY = 1600
@@ -13,6 +14,7 @@ var is_grounded = false
 var knockdir = Vector2()
 var hitstun = 0
 var health = 5
+var was_hit = false
 
 var move_speed
 var jump_velocity
@@ -42,7 +44,7 @@ func _physics_process(delta):
 		else:
 			is_grounded = false
 		
-		if Input.is_action_pressed("fire_handgun"):
+		if Input.is_action_pressed("shoot"):
 			if timer.is_stopped():
 				fire_projectile()
 				restart_timer()
@@ -82,24 +84,24 @@ func fire_projectile():
 		projectile.set_collision_layer_bit(5,true)
 		projectile.set_collision_mask_bit(5,true)
 		projectile.set_position(position2D.get_global_position())
-		if sign(position2D.get_position().x) == 1:
-			projectile.set_projectile_direction_x(1)
-		else:
-			projectile.set_projectile_direction_x(-1)
-		if Input.is_action_pressed("move_up") && Input.is_action_pressed("move_right"):
+		if Input.is_action_pressed("shoot_up") && Input.is_action_pressed("shoot_right"):
 			projectile.set_proyectile_direction(1,-1)
-		elif Input.is_action_pressed("move_down") && Input.is_action_pressed("move_right"):
+		elif Input.is_action_pressed("shoot_down") && Input.is_action_pressed("shoot_right"):
 			projectile.set_proyectile_direction(1,1)
-		elif Input.is_action_pressed("move_up") && Input.is_action_pressed("move_left"):
+		elif Input.is_action_pressed("shoot_up") && Input.is_action_pressed("shoot_left"):
 			projectile.set_proyectile_direction(-1,-1)
-		elif Input.is_action_pressed("move_down") && Input.is_action_pressed("move_left"):
+		elif Input.is_action_pressed("shoot_down") && Input.is_action_pressed("shoot_left"):
 			projectile.set_proyectile_direction(-1,1)
-		elif Input.is_action_pressed("move_up"):
+		elif Input.is_action_pressed("shoot_up"):
 			projectile.set_proyectile_direction(0,-1)
-		elif Input.is_action_pressed("move_down"):
+		elif Input.is_action_pressed("shoot_down"):
 			projectile.set_proyectile_direction(0,1)
+		elif Input.is_action_pressed("shoot_left"):
+			projectile.set_proyectile_direction(-1,0)
+		elif Input.is_action_pressed("shoot_right"):
+			projectile.set_proyectile_direction(1,0)
 		else:
-			projectile.set_projectile_direction_y(0)
+			projectile.set_proyectile_direction(0,0)
 
 func restart_timer():
 	timer.set_wait_time(timerWait)
@@ -110,9 +112,8 @@ func _on_HandgunTimer_timeout():
 
 func damage_loop():
 	for body in get_node("hitbox").get_overlapping_bodies():
-		if timer2.is_stopped() and ((body.get("TYPE") == "ENEMY") or (body.get("TYPE") == "FLYINGENEMY")):
+		if (not was_hit) and ((body.get("TYPE") == "ENEMY") or (body.get("TYPE") == "FLYINGENEMY")):
 			receive_damage()
-		#elif health < 1:
 
 func boost():
 	match health:
@@ -157,11 +158,13 @@ func _change_life(speed, jump, timer):
 	timerWait = timer
 
 func on_projectile_hit(damage):
-	if timer2.is_stopped():
+	if not was_hit:
 		receive_damage()
 	
 func receive_damage():
+	was_hit = true
 	$AudioStreamPlayer.play()
+	$AnimationPlayer.play("hit")
 	$Particles2D.emitting = true
 	timer2.start()
 	health -= 1
@@ -176,6 +179,10 @@ func _on_StaticBody2D2_repel():
 	velocity.y = -1500
 	
 func cure():
+	var g = green.instance()
+	g.set_position(position)
+#	g.set_modulate(,,,255)
+	get_parent().call_deferred("add_child", g)
 	health += 1
 	call_deferred("boost")
 	
@@ -185,4 +192,13 @@ func die():
 	$AnimationPlayer.play("Nueva animación")
 
 func _on_AnimationPlayer_animation_finished(anim_name):
-	call_deferred('queue_free')
+	if (anim_name == "hit"):
+		was_hit = false
+	else:
+		call_deferred('queue_free')
+
+
+func _on_Button_pressed():
+	health = 3
+	call_deferred("boost")
+	print("cheater!!!")
